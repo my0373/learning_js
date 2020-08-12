@@ -5,13 +5,12 @@ const todo = ['Go to Dentist',
               'Clean the car',
               'Join a call'];
 
-// print the length of the array inline.
-console.log(`You have ${todo.length} things to do.`);
+// Delete the 3rd item
+todo.splice(2,1)
+// Add a new item onto the end
+todo.push('New Item')
+// remove the first item from the list.
+todo.shift()
 
-// print the first item explicitly
-console.log(`The first item is ${todo[0]}`)
-
-// print the second to last item by doing some inline loveliness.
-console.log(`The penultimate item is ${todo[todo.length -2]}`)
-
+console.log(todo)
 
