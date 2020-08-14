@@ -12,19 +12,16 @@ const taskobjects = [{
 
 // Define a function to look at the task objects and search for a supplied task title.
 const findTask = function (taskobjects, taskTitle) {
-    // Use the array findindex method to find an object whose title property
-    // matches the supplied taskTitle parameter. This will return the index of the matching object,
-    // or -1 if there is no match
-    const index = taskobjects.findIndex( function (task) {
 
+
+    // We have now simplified this by using the find method on the array (instead of findIndex)
+    // we also return the taskobjects.find directly without the need to declare a const to catch
+    // the output.
+
+    return taskobjects.find( function (task) {
         // We convert both strings to lowercase to make the search case insensitive.
         return task.title.toLowerCase() === taskTitle.toLowerCase();
     })
-    // Attempt to retrieve the object at the specified index in the array
-    // if it is -1 (no match found) then there will be no array object and
-    // we will return undefined (as we have nothing to return)
-    return taskobjects[index];
-
 }
 
 // Call the search function and return the task
