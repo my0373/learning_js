@@ -16,7 +16,9 @@ const findTask = function (taskobjects, taskTitle) {
     // matches the supplied taskTitle parameter. This will return the index of the matching object,
     // or -1 if there is no match
     const index = taskobjects.findIndex( function (task) {
-        return task.title === taskTitle;
+
+        // We convert both strings to lowercase to make the search case insensitive.
+        return task.title.toLowerCase() === taskTitle.toLowerCase();
     })
     // Attempt to retrieve the object at the specified index in the array
     // if it is -1 (no match found) then there will be no array object and
