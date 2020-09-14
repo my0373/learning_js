@@ -39,7 +39,7 @@ const summaryText = `You have ${completed + uncompleted} tasks in total. ${compl
 // I could have done this using the same list filtering as above, but I wanted to show both methods.
 // Then append the task to the bottom of the body object
 tasks.forEach( function (task ) {
-    if (task.completed == true) {
+    if (task.completed === true) {
         const p = document.createElement('p')
         p.textContent = task.text
         p.style.color = "green"
@@ -56,6 +56,14 @@ tasks.forEach( function (task ) {
 const summary = document.createElement('p')
 summary.textContent = summaryText
 document.querySelector('body').appendChild(summary)
+document.querySelector('#create-todo').addEventListener('click',function (e){
+    e.target.textContent = "Adding new todo"
+})
 
+// Add an event handler for our todo search. Using the input event to catch all keypresses.
+// The 'change' event fires when we hit submit, or move focus out of the box.
+document.querySelector('#new-todo').addEventListener('input', function (e) {
+    console.log(e.target.value)
+})
 // 1. print a summary message saying how many todos to complete
 // 2. Print a paragraph for each todo above. Us ethe text value as the label
