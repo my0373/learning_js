@@ -19,51 +19,37 @@ const tasks = [{
     completed: false
 },]
 
-// A couple of simple functions to allow us to pick out the tasks we want.
-function isComplete(task) {
-    return task.completed === true
+// This is a blank filter to start with. Default is no filtering.
+filters = {
+    searchText: ''
 }
 
-function isIncomplete(task) {
-    return task.completed === false
-}
+// Here we find the "input" element with the class of search-todos
+// and add an event listner for the "input" event.
 
-// We now run these filters on the array twice, counting the length of the array.
-let completed = tasks.filter(isComplete).length
-let uncompleted = tasks.filter(isIncomplete).length
-
-// Define the summary message
-const summaryText = `You have ${completed + uncompleted} tasks in total. ${completed} tasks have been completed. ${uncompleted} tasks are incomplete`
-
-// Go through each task and print it in green if completed, otherwise in red.
-// I could have done this using the same list filtering as above, but I wanted to show both methods.
-// Then append the task to the bottom of the body object
-tasks.forEach( function (task ) {
-    if (task.completed === true) {
-        const p = document.createElement('p')
-        p.textContent = task.text
-        p.style.color = "green"
-        document.querySelector('body').appendChild(p)
-    } else {
-        const p = document.createElement('p')
-        p.textContent = task.text
-        p.style.color = "red"
-        document.querySelector('body').appendChild(p)
-    }
-})
-
-// create the summary and append it to the bottom of the body object
-const summary = document.createElement('p')
-summary.textContent = summaryText
-document.querySelector('body').appendChild(summary)
-document.querySelector('#create-todo').addEventListener('click',function (e){
-    e.target.textContent = "Adding new todo"
-})
-
-// Add an event handler for our todo search. Using the input event to catch all keypresses.
-// The 'change' event fires when we hit submit, or move focus out of the box.
-document.querySelector('#new-todo').addEventListener('input', function (e) {
+// When the event fires, we callback the renderTodos function
+document.querySelector('input#search-todos').addEventListener('input', function (e) {
     console.log(e.target.value)
+    renderTodos(e.target.value,tasks)
 })
-// 1. print a summary message saying how many todos to complete
-// 2. Print a paragraph for each todo above. Us ethe text value as the label
+
+// The renderTodos function expects the filters list as well as a task list.
+// It will render the list of tasks that match the supplied filter list.
+function renderTodos (filters, tasks) {
+    console.log('rendering the todos')
+    const todolist = document.querySelector('#todo-list')
+    todolist.innerHTML = "<h4>Search results</h4>"
+
+    tasks.forEach( function (value) {
+
+        const todoEM = document.createElement('p')
+
+        if (value.text.toLowerCase().includes(filters.toLowerCase())) {
+            todoEM.textContent = value.text
+            todolist.appendChild(todoEM)
+        }
+
+    })
+
+}
+
