@@ -1,5 +1,5 @@
 // The tasks are now an array in code.
-const tasks = [{
+const todos = [{
     text: 'make coffee',
     completed: true
 },{
@@ -24,32 +24,45 @@ filters = {
     searchText: ''
 }
 
-// Here we find the "input" element with the class of search-todos
-// and add an event listner for the "input" event.
-
-// When the event fires, we callback the renderTodos function
-document.querySelector('input#search-todos').addEventListener('input', function (e) {
-    console.log(e.target.value)
-    renderTodos(e.target.value,tasks)
-})
-
 // The renderTodos function expects the filters list as well as a task list.
 // It will render the list of tasks that match the supplied filter list.
-function renderTodos (filters, tasks) {
-    console.log('rendering the todos')
-    const todolist = document.querySelector('#todo-list')
+const renderTodos = function(todos, filters) {
+
+    // Get the todo-list div element.
+    const todolist = document.querySelector('div#todo-list')
+
+    // Reset the text in the div
     todolist.innerHTML = "<h4>Search results</h4>"
 
-    tasks.forEach( function (value) {
+    // Filter the todo list to contain only those items that match the input field.
+    const filteredTodos = todos.filter( function (todo) {
+        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+    })
+
+    console.log(filteredTodos)
+    // For each
+    filteredTodos.forEach( function (todo) {
 
         const todoEM = document.createElement('p')
-
-        if (value.text.toLowerCase().includes(filters.toLowerCase())) {
-            todoEM.textContent = value.text
-            todolist.appendChild(todoEM)
-        }
+        todoEM.textContent = todo.text
+        todolist.appendChild(todoEM)
 
     })
 
 }
 
+// The entry point where we load all the todos.
+renderTodos(todos,filters)
+
+/*
+    ** Listeners **
+*/
+
+// This listener picks up changes to the text field. It updates the filters and rerenders the div.
+document.querySelector('input#filter-todos').addEventListener('input', function (e) {
+
+
+    // Set the filter to the value of the search box.
+    filters.searchText = e.target.value
+    renderTodos(todos,filters)
+})
