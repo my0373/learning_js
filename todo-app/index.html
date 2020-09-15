@@ -5,14 +5,28 @@
     <title>Title</title>
 </head>
 <body>
+<!-- This form is a set of filter options that can be applied to the todo list. -->
+<form id="filter-options">
+
+</form>
 <h1>Tasks todo</h1>
-<input id="filter-todos" type="text" placeholder="Search Todos">
+<label>
+    Hide completed todos ?
+    <input type="checkbox" id="hideCompleted">
+</label>
+<br>
+<label> Filter text:
+    <input id="filter-todos" type="text" placeholder="Search Todos">
+</label>
 <div id="todo-list">
 
 </div>
 <form id="new-todo-form">
+
+    <br>
     <input id="new-todo" name="newTodoName" placeholder="Add a new to do">
     <button id="create-todo">Create todo</button>
+
 </form>
 
 

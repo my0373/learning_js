@@ -13,15 +13,16 @@ const todos = [{
     completed: true
 },{
     text: 'buy plastic buckets',
-    completed: false
+    completed: true
 },{
     text: 'Wash up',
-    completed: false
+    completed: true
 },]
 
 // This is a blank filter to start with. Default is no filtering.
 filters = {
-    searchText: ''
+    searchText: '',
+    hideCompleted: false
 }
 
 // The renderTodos function expects the filters list as well as a task list.
@@ -34,22 +35,59 @@ const renderTodos = function(todos, filters) {
     // Reset the text in the div
     todolist.innerHTML = "<h4>Search results</h4>"
 
+    // Filter the todo list to contain only those items that match the input field...
+    // IF they are flagged as complete
+    const completeTodos = todos.filter( function (todo) {
+        if (todo.completed) {
+            return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+        }
+    })
+
+    // Filter the todo list to contain only those items that match the input field...
+    // IF they are flagged as incomplete
+
+    const incompleteTodos = todos.filter( function (todo) {
+        if (!todo.completed) {
+            return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+        }
+    })
+    // Filter the todo list to contain only those items that match the input field...
+    // irrespective of the completed flag.
+    const allTodos = todos.filter( function (todo) {
+        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+    })
+
     // Filter the todo list to contain only those items that match the input field.
     const filteredTodos = todos.filter( function (todo) {
         return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
     })
 
-    // For each
-    filteredTodos.forEach( function (todo) {
+    let renderTodos = {}
 
+    if (filters.hideCompleted) {
+        renderTodos = incompleteTodos
+    } else {
+        renderTodos = filteredTodos
+    }
+
+    // If the todo list is empty, then we just state there are no items left.
+    // If there are items in the todo list then we iterate through them all
+    //  and append them to the todo div element.
+    if (renderTodos.length < 1) {
+        const todoEM = document.createElement('p')
+        todoEM.textContent = `No todo's left!`
+        todolist.appendChild(todoEM)
+    } else {
+    renderTodos.forEach( function (todo) {
         const todoEM = document.createElement('p')
         todoEM.textContent = todo.text
         todolist.appendChild(todoEM)
-
-    })
+        }
+    )}
 
 }
 
+// Simple function to add new items to the todo list.
 const addNewTodo = function(todos,newItem) {
     newTodo = {
         text: newItem,
@@ -57,6 +95,7 @@ const addNewTodo = function(todos,newItem) {
     }
     todos.push(newTodo)
 }
+
 
 // The entry point where we load all the todos.
 renderTodos(todos,filters)
@@ -75,8 +114,20 @@ renderTodos(todos,filters)
 document.querySelector('form#new-todo-form').addEventListener('submit', function (e) {
     e.preventDefault()
     const newTodoName = e.target.elements.newTodoName.value
+    e.target.elements.newTodoName.value = ''
     addNewTodo(todos,newTodoName)
     renderTodos(todos,filters)
+    }
+)
+
+// Add a listener for the "hide completed" checkbox
+
+document.querySelector('#hideCompleted').addEventListener('change', function (e) {
+        console.log(e)
+        const filterCompleted = e.target.checked
+        console.log(`setting filters.hidecompleted to ${filterCompleted}`)
+        filters.hideCompleted = filterCompleted
+        renderTodos(todos,filters)
     }
 )
 
