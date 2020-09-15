@@ -1,16 +1,31 @@
-// Create an array with 5 things todo
-const todo = ['Go to Dentist',
-              'Pick up the kids',
-              'Finish my work',
-              'Clean the car',
-              'Join a call'];
+// Create an array of objects
+const taskobjects = [{
+    title: 'make coffee',
+    body: 'Remember to make a coffee'
+}, {
+    title: 'feed the guinea pigs',
+    body: 'Remember to feed blondie and fluffy'
+}]
 
-// Delete the 3rd item
-todo.splice(2,1)
-// Add a new item onto the end
-todo.push('New Item')
-// remove the first item from the list.
-todo.shift()
+// For arrays of objects, we use a callback function to test if the title matches the desired string.
+// If it does, we return the index of the matching object and print that element out.
 
-console.log(todo)
+// Define a function to look at the task objects and search for a supplied task title.
+const findTask = function (taskobjects, taskTitle) {
 
+
+    // We have now simplified this by using the find method on the array (instead of findIndex)
+    // we also return the taskobjects.find directly without the need to declare a const to catch
+    // the output.
+
+    return taskobjects.find( function (task) {
+        // We convert both strings to lowercase to make the search case insensitive.
+        return task.title.toLowerCase() === taskTitle.toLowerCase();
+    })
+}
+
+// Call the search function and return the task
+task = findTask(taskobjects,'feed the guinea pigs')
+
+// print the task
+console.log(task)
