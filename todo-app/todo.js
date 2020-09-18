@@ -1,4 +1,6 @@
 
+console.log(uuidv4())
+
 // Here we define the default todo array.
 let todos = getSavedTodos()
 

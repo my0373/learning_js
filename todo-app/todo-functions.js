@@ -24,6 +24,7 @@ function saveTodos(todos)
 function addNewTodo(todos,newItem) 
 {
     newTodo = {
+        id: uuidv4(),
         text: newItem,
         completed: false
     }
@@ -88,18 +89,50 @@ function renderTodos(todos, filters) {
             todolist.appendChild(generateTodoDOM(emptyText))
         } else {
         renderTodos.forEach( function (todo) {
-            todolist.appendChild(generateTodoDOM(todo.text))
+            todolist.appendChild(generateTodoDOM(todo))
             }
         )}
     
 }
 
-function generateTodoDOM(text) {
-    const todoEM = document.createElement('p')
-    todoEM.textContent = text 
-    
-    return todoEM
+function generateTodoDOM(todo) {
+    const todoDivEM = document.createElement('div')
+    const todoComplete = document.createElement('input')
+    const todoEM = document.createElement('span')
+    const delTodoEM = document.createElement('button')
 
+    todoComplete.setAttribute('type','checkbox')
+    todoEM.textContent = todo.text 
+    delTodoEM.textContent = 'x'
+    
+    delTodoEM.addEventListener('click', function (e) {
+        console.log(`Note id is : ${todo.id}`)
+        deleteTodo(todo.id)
+
+    })
+    
+    todoDivEM.appendChild(todoComplete)
+    todoDivEM.appendChild(todoEM)
+    todoDivEM.appendChild(delTodoEM)
+
+
+
+
+    return todoDivEM
+
+}
+function deleteTodo(id) {
+    console.log(`Looking for ID : ${id}`)
+    console.log(todos)
+    const todoIndex = todos.findIndex( function (todo) {
+        return todo.id === id 
+    })
+
+    console.log(`Removing todo ${todoIndex}`)
+    if (todoIndex > -1) {
+        todos.splice(todoIndex, 1)
+    }
+    renderTodos(todos,filters)
 }
 
 function generateSummaryDOM() {
