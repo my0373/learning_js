@@ -102,9 +102,24 @@ function generateTodoDOM(todo) {
     const delTodoEM = document.createElement('button')
 
     todoComplete.setAttribute('type','checkbox')
+
+    /* 
+    Originally I used this for the below code as ussing a setter seemed safer. 
+    The tutorial says not, so I've simplified it below.
+    if (todo.completed === true) {
+        todoComplete.setAttribute('checked','')
+    }
+    */
+    todoComplete.checked = todo.completed
     todoEM.textContent = todo.text 
     delTodoEM.textContent = 'x'
     
+    todoComplete.addEventListener('click', function (e) {
+        checkboxValue = e.target.checked
+        console.log(`marking note ${todo.id} as ${checkboxValue}`)
+        setTodoState(todo.id,checkboxValue)
+    })
+
     delTodoEM.addEventListener('click', function (e) {
         console.log(`Note id is : ${todo.id}`)
         deleteTodo(todo.id)
@@ -121,12 +136,30 @@ function generateTodoDOM(todo) {
     return todoDivEM
 
 }
+
+function getTodoByID(id) {
+    console.log(`Looking for ID : ${id}`)
+    console.log(todos)
+    index = todos.findIndex( function (todo) {
+        return todo.id === id 
+    })
+    return index 
+}
+function setTodoState(id,checked) {
+
+    const todoIndex = getTodoByID(id)
+    console.log(`Updating todo ${todoIndex}`)
+    if (todoIndex > -1) {
+        todos[todoIndex].completed = checked 
+    }
+    saveTodos(todos)
+    renderTodos(todos,filters)
+}
+
 function deleteTodo(id) {
     console.log(`Looking for ID : ${id}`)
     console.log(todos)
-    const todoIndex = todos.findIndex( function (todo) {
-        return todo.id === id 
-    })
+    const todoIndex = getTodoByID(id)
 
     console.log(`Removing todo ${todoIndex}`)
     if (todoIndex > -1) {
