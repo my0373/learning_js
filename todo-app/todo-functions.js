@@ -132,6 +132,7 @@ function deleteTodo(id) {
     if (todoIndex > -1) {
         todos.splice(todoIndex, 1)
     }
+    saveTodos(todos)
     renderTodos(todos,filters)
 }
 
